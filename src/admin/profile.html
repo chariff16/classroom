@@ -6,6 +6,7 @@
     <title>classRoom</title>
     <link href="./../output.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../img/logo.svg" type="image/x-icon" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
@@ -67,10 +68,81 @@
           Profile
         </h1>
         <div class="mt-10 flex justify-center items-center">
-          <div class="bg-white h-96 w-[390px]"></div>
+          <form
+            action="code.php"
+            class="py-4 px-6 border border-gray-400 bg-white w-[390px]"
+            id="form"
+            method="post"
+          >
+            <input type="hidden" name="action" value="updateProfile" />
+            <div
+              id="message"
+              class="text-center bg-red-500 py-2 text-white hidden"
+            ></div>
+            <p class="py-3 text-lg">Full Name</p>
+            <input
+              type="text"
+              name="fullname"
+              placeholder="Full Name"
+              id="fullName"
+              disabled
+              class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            /><br />
+            <p class="py-3 text-lg">Username</p>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              id="userName"
+              disabled
+              class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            /><br />
+            <p class="py-3 text-lg">Email</p>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              id="email"
+              disabled
+              class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            /><br />
+            <p class="py-3 text-lg">Password</p>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              id="passWord"
+              disabled
+              class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            /><br />
+            <button
+              class="bg-blue-700 text-white px-4 py-2 mt-4 rounded-lg float-end"
+              id="editBtn"
+            >
+              Edit
+            </button>
+            <button
+              class="bg-green-700 text-white px-4 py-2 mt-4 rounded-lg float-end hidden"
+              id="saveBtn"
+            >
+              save
+            </button>
+          </form>
         </div>
       </section>
     </div>
-    <script></script>
+    <script>
+      $(document).ready(function () {
+        $("#editBtn").click(function (e) {
+          e.preventDefault();
+          $("#fullName").prop("disabled", false);
+          $("#userName").prop("disabled", false);
+          $("#email").prop("disabled", false);
+          $("#passWord").prop("disabled", false);
+          $("#saveBtn").removeClass("hidden");
+          $("#editBtn").addClass("hidden");
+        });
+      });
+    </script>
   </body>
 </html>
