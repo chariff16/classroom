@@ -1,4 +1,5 @@
 <?php
+function get_submit_not_reviewed() {
     require('../conn.php');
     $sql = "SELECT * FROM `submit` WHERE reviewed='0'";
     $result = $conn->query($sql);
@@ -18,5 +19,6 @@
     echo json_encode($res);
     
 $conn->close();
-
+}
+get_submit_not_reviewed();
 ?>

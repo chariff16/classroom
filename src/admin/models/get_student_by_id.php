@@ -1,4 +1,5 @@
 <?php
+function get_student_by_id(){
     require('../conn.php');
     $id = $_GET['id_user'];
     $sql = "SELECT * FROM `user` WHERE id = $id";
@@ -18,5 +19,6 @@
     echo json_encode($res);
     
 $conn->close();
-
+}
+get_student_by_id();
 ?>

@@ -1,4 +1,5 @@
 <?php
+function get_submit_by_id_user() {
     require('../conn.php');
     $id=$_GET['user_id'];
     $sql = "SELECT * FROM `submit` WHERE user_id=$id";
@@ -19,5 +20,6 @@
     echo json_encode($res);
     
 $conn->close();
-
+}
+get_submit_by_id_user();
 ?>

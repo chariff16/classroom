@@ -1,4 +1,5 @@
 <?php
+function get_students() {
     require('../conn.php');
     $sql = "SELECT * FROM user WHERE role='student'";
     $result = $conn->query($sql);
@@ -18,5 +19,6 @@
     echo json_encode($res);
     
 $conn->close();
-
+}
+get_students();
 ?>

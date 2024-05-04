@@ -1,4 +1,5 @@
 <?php
+function get_homeworks(){
     require('../conn.php');
     $sql = "SELECT * FROM `homeworks` WHERE 1";
     $result = $conn->query($sql);
@@ -18,5 +19,6 @@
     echo json_encode($res);
     
 $conn->close();
-
+}
+get_homeworks();
 ?>
