@@ -1,14 +1,15 @@
 <?php
-function getStudentTmp(){
-    require('../conn.php');
+function getStudentTmp()
+{
+    require('../../conn.php');
     $sql = "SELECT * FROM user WHERE role='student_tmp'";
     $result = $conn->query($sql);
-
     if ($result && $result->num_rows > 0) {
         $res = [
             'code' => 200,
             'message' => 'get Student Tmp successful',
-            'data' => $result->fetch_all()
+            'data' => $result->fetch_all(),
+            'count' => $result->num_rows
         ];
     } else {
         $res = [
@@ -17,7 +18,7 @@ function getStudentTmp(){
         ];
     }
     echo json_encode($res);
-    
-$conn->close();
+
+    $conn->close();
 }
-?>
+getStudentTmp();

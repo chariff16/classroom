@@ -6,6 +6,7 @@
     <title>classRoom</title>
     <link href="./../output.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../img/logo.svg" type="image/x-icon" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
@@ -72,7 +73,7 @@
               New Students Requests
             </h2>
             <h2 class="text-lg text-gray-700 font-normal">
-              Total Requests : <span>2</span>
+              Total Requests : <span id="count">2</span>
             </h2>
           </div>
 
@@ -92,7 +93,7 @@
                   <th class="text-start pl-2">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tbody">
                 <tr class="border-b border-gray-400">
                   <td class="text-start pl-2 border-r border-gray-400">1</td>
                   <td class="text-start pl-2 border-r border-gray-400">
@@ -136,6 +137,58 @@
         </div>
       </section>
     </div>
-    <script></script>
+    <script>
+      $(document).ready(function () {
+        function fetchStudentData() {
+          $.ajax({
+            type: "GET",
+            url: "models/get_students_tmp.php",
+            success: function (response) {
+              let res = jQuery.parseJSON(response);
+              let count = res.count;
+              $("#count").html(count);
+              let output = "";
+              for (let i = 0; i < count; i++) {
+                console.log(res.data[i][1]);
+                $("#tbody").html(
+                  `<tr class="border-b border-gray-400">
+                  <td class="text-start pl-2 border-r border-gray-400">` +
+                    res.data[i][0] +
+                    `</td>
+                  <td class="text-start pl-2 border-r border-gray-400">
+                    ` +
+                    res.data[i][1] +
+                    `
+                  </td>
+                  <td class="text-start pl-2 border-r border-gray-400">
+                    ` +
+                    res.data[i][3] +
+                    `
+                  </td>
+                  <td class="text-start pl-2">
+                    <a
+                      value="` +
+                    res.data[i][0] +
+                    `"
+                      class="bg-blue-700 text-white mr-1 py-1 px-2 rounded-lg"
+                    >
+                      Accept
+                    </a>
+                    <button
+                      class="bg-red-600 text-white mr-1 py-1 px-2 rounded-lg"
+                    >
+                      Cancel
+                    </button>
+                  </td>
+                </tr>`
+                );
+              }
+              //console.log(res.count);
+            },
+          });
+        }
+        fetchStudentData();
+      });
+    </script>
   </body>
 </html>
