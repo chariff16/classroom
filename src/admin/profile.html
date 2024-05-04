@@ -143,6 +143,17 @@
           $("#editBtn").addClass("hidden");
         });
       });
+      $(document).ready(function () {
+        $("#saveBtn").click(function (e) {
+          e.preventDefault();
+          $("#fullName").prop("disabled", true);
+          $("#userName").prop("disabled", true);
+          $("#email").prop("disabled", true);
+          $("#passWord").prop("disabled", true);
+          $("#editBtn").removeClass("hidden");
+          $("#saveBtn").addClass("hidden");
+        });
+      });
     </script>
   </body>
 </html>
