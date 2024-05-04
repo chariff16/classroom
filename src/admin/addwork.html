@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>classRoom</title>
+    <link href="./../output.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="../img/logo.svg" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="w-full bg-gray-200 h-screen flex">
+      <aside class="w-[300px] h-screen bg-white relative">
+        <a
+          href="../index.html"
+          class="flex items-center justify-center border-b py-2 mb-6"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            ></path>
+          </svg>
+          <span
+            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            >classRoom</span
+          >
+        </a>
+        <a
+          href="index.html"
+          class="block border-b py-2 text-center font-medium text-xl hover:bg-gray-100"
+          >Dashbord</a
+        >
+        <a
+          href="students.html"
+          class="block border-b py-2 text-center font-medium text-xl hover:bg-gray-100"
+          >Students</a
+        >
+        <a
+          href="homework.html"
+          class="block border-b py-2 text-center font-medium text-xl bg-gray-200 text-blue-700"
+          >Home Work</a
+        >
+        <a
+          href="profile.html"
+          class="block border-b py-2 text-center font-medium text-xl hover:bg-gray-100"
+          >Profile</a
+        >
+        <div class="absolute bottom-8 flex justify-center items-center w-full">
+          <button
+            class="bg-red-600 text-white py-1 px-12 mx-auto rounded-lg hover:bg-red-500"
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
+      <section class="w-full px-8 overflow-hidden">
+        <h1 class="text-center text-2xl text-blue-700 font-bold py-3">
+          Add Home Works
+        </h1>
+        <div class="mt-10">
+          <form
+            action="code.php"
+            class="py-4 px-6 border w-full"
+            id="form"
+            method="post"
+          >
+            <div class="flex items-center w-full">
+              <div class="w-2/3">
+                <p class="text-blue-700 font-medium">Titel</p>
+                <input
+                  class="w-full border border-gray-400 py-1 px-3"
+                  type="text"
+                  name="title"
+                  placeholder="Enter the Home work title "
+                />
+              </div>
+              <div class="w-1/3">
+                <p class="text-blue-700 font-medium">Dead Line</p>
+                <input
+                  class="w-full text-center border border-gray-400 py-1 px-3"
+                  type="date"
+                  name="enddate"
+                />
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="text-blue-700 font-medium">Description</p>
+              <textarea
+                name="description"
+                id="description"
+                class="w-full h-80 border border-gray-400 py-1 px-3"
+                placeholder="Enetr the home work description"
+              ></textarea>
+            </div>
+            <div class="mt-2 flex justify-between">
+              <div
+                id="message"
+                class="text-center bg-red-500 py-2 text-white w-full mr-3 hidden"
+              >
+                error
+              </div>
+              <button
+                class="bg-green-700 text-white px-4 py-2 rounded-lg"
+                id="saveBtn"
+              >
+                save
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+    <script></script>
+  </body>
+</html>
