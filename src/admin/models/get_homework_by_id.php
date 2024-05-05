@@ -1,6 +1,7 @@
 <?php
-function get_homework_by_id(){
-    require('../conn.php');
+function get_homework_by_id()
+{
+    require('../../conn.php');
     $id = $_GET['id_Homework '];
     $sql = "SELECT * FROM `homeworks` WHERE id_Homework = $id";
     $result = $conn->query($sql);
@@ -17,8 +18,7 @@ function get_homework_by_id(){
         ];
     }
     echo json_encode($res);
-    
-$conn->close();
+
+    $conn->close();
 }
 get_homework_by_id();
-?>

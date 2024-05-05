@@ -1,5 +1,5 @@
 <?php
-require('conn.php');
+require('../../conn.php');
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -36,25 +36,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result && $result->num_rows > 0) {
             // Get the user data
-            $user = $result->fetch_assoc(); 
+            $user = $result->fetch_assoc();
             if ($user['role'] == "admin") {
                 $res = [
                     'code' => 201,
                     'message' => 'Login successful!'
                 ];
             } else {
-               if ($user['role'] == "student") {
-                $res = [
-                    'code' => 202,
-                    'message' => 'Login successful!'
-                ];
-               } else {
-                $res = [
-                    'code' => 203,
-                    'message' => 'your account is tmp'
-                ];
-               }
-               
+                if ($user['role'] == "student") {
+                    $res = [
+                        'code' => 202,
+                        'message' => 'Login successful!'
+                    ];
+                } else {
+                    $res = [
+                        'code' => 203,
+                        'message' => 'your account is tmp'
+                    ];
+                }
             }
         } else {
             $res = [

@@ -1,7 +1,8 @@
 <?php
-function get_submit_by_id() {
-    require('../conn.php');
-    $id=$_GET['id'];
+function get_submit_by_id()
+{
+    require('../../conn.php');
+    $id = $_GET['id'];
     $sql = "SELECT * FROM `submit` WHERE id=$id";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
@@ -17,8 +18,7 @@ function get_submit_by_id() {
         ];
     }
     echo json_encode($res);
-    
-$conn->close();
+
+    $conn->close();
 }
 get_submit_by_id();
-?>

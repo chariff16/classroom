@@ -1,6 +1,7 @@
 <?php
-function get_homeworks(){
-    require('../conn.php');
+function get_homeworks()
+{
+    require('../../conn.php');
     $sql = "SELECT * FROM `homeworks` WHERE 1";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
@@ -17,8 +18,7 @@ function get_homeworks(){
         ];
     }
     echo json_encode($res);
-    
-$conn->close();
+
+    $conn->close();
 }
 get_homeworks();
-?>

@@ -1,7 +1,7 @@
 <?php
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    require('../conn.php');
+    require('../../conn.php');
     $id_homework = $_POST['id_homework'];
     $user_id = $_POST['user_id'];
     $title_homework = $_POST['title_homework'];

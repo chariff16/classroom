@@ -1,6 +1,7 @@
 <?php
-function get_submit_reviuwed() {
-    require('../conn.php');
+function get_submit_reviuwed()
+{
+    require('../../conn.php');
     $sql = "SELECT * FROM `submit` WHERE reviewed='1'";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
@@ -17,8 +18,7 @@ function get_submit_reviuwed() {
         ];
     }
     echo json_encode($res);
-    
-$conn->close();   
+
+    $conn->close();
 }
 get_submit_reviuwed();
-?>
