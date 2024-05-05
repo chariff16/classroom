@@ -14,7 +14,8 @@ function get_homeworks()
     } else {
         $res = [
             'code' => 404,
-            'message' => 'get Student Tmp not successful!'
+            'message' => 'get Student Tmp not successful!',
+            'count' => count($result->fetch_all())
         ];
     }
     echo json_encode($res);
