@@ -6,7 +6,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description_Homework = $_POST['description_Homework'];
     $Deadline_Homework = $_POST['Deadline_Homework'];
     $path_Homework = $_POST['path_Homework'];
-    $sal = "INSERT INTO `homeworks`(`title_Homework`, `description_Homework`, `Deadline_Homework`, `path_Homework`) VALUES ('$title_Homework,$description_Homework,$Deadline_Homework,$path_Homework)";
+    $sql = "INSERT INTO `homeworks`(`title_Homework`, `description_Homework`, `Deadline_Homework`, `path_Homework`) VALUES ('$title_Homework','$description_Homework','$Deadline_Homework','$path_Homework')";
+
     $result = $conn->query($sql);
 
     if ($result) {
