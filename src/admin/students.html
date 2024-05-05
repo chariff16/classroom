@@ -6,6 +6,7 @@
     <title>classRoom</title>
     <link href="./../output.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../img/logo.svg" type="image/x-icon" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
@@ -75,7 +76,7 @@
           </div>
 
           <div
-            class="h-[27rem] overflow-y-auto bg-white border border-gray-400 mb-5"
+            class="h-[24rem] overflow-y-auto bg-white border border-gray-400 mb-5"
           >
             <table class="w-full table-auto">
               <thead>
@@ -92,7 +93,7 @@
                   <th class="text-start pl-2 w-40">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tbody">
                 <tr class="border-b border-gray-400">
                   <td class="text-start pl-2 border-r border-gray-400">1</td>
                   <td class="text-start pl-2 border-r border-gray-400">
@@ -123,9 +124,131 @@
               </tbody>
             </table>
           </div>
+          <p id="message" class="w-full text-center text-white py-2"></p>
         </div>
       </section>
     </div>
-    <script></script>
+    <script>
+      $(document).ready(function () {
+        function tmp_students() {
+          $.ajax({
+            type: "GET",
+            url: "models/get_students.php",
+            success: function (response) {
+              let res = jQuery.parseJSON(response);
+              console.log(res.data);
+              let count = res.count;
+              $("#count").html(count);
+              if (res.code == 200) {
+                let output = "";
+                for (let i = 0; i < count; i++) {
+                  output += `
+                  <tr class="border-b border-gray-400">
+                  <td class="text-start pl-2 border-r border-gray-400">${res.data[i][0]}</td>
+                  <td class="text-start pl-2 border-r border-gray-400">
+                    ${res.data[i][1]}
+                  </td>
+                  <td class="text-start pl-2 border-r border-gray-400">
+                    ${res.data[i][3]}
+                  </td>
+                  <td class="text-start pl-2">
+                    <a
+                      href="viewstudent.html"
+                      class="bg-green-700 text-white mr-1 py-1 px-2 rounded-lg"
+                    >
+                      View
+                    </a>
+                    <button
+                      class="bg-red-700 text-white mr-1 py-1 px-2 rounded-lg"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                      `;
+                }
+                $("#tbody").html(output);
+              }
+              if (res.code == 404) {
+                let output = `
+                <tr>
+                  <td colspan="4" class="text-center text-gray-400">
+                    No Students Listed
+                  </td>
+                </tr>
+                `;
+                $("#tbody").html(output);
+              }
+
+              // Bind click event handlers after updating the table
+              $(".accBtn").click(function () {
+                var buttonId = $(this).attr("id");
+                $.ajax({
+                  type: "POST",
+                  url: "models/accept_student.php",
+                  data: { id_user: buttonId },
+                  success: function (response) {
+                    let res = jQuery.parseJSON(response);
+                    if (res.code == 200) {
+                      $("#message").addClass("bg-green-700");
+                      $("#message").html(res.message);
+                      $(`#${buttonId}`).closest("tr").remove();
+                      $("#count").html(res.count);
+                      tmp_students();
+                    }
+                  },
+                });
+              });
+              $(".cancBtn").click(function () {
+                var buttonId = $(this).attr("id");
+                $.ajax({
+                  type: "POST",
+                  url: "models/refuse_student.php", // Replace with your POST URL
+                  data: { id_user: buttonId }, // Data to be sent
+                  success: function (response) {
+                    let res = jQuery.parseJSON(response);
+                    if (res.code == 200) {
+                      $("#message").addClass("bg-red-700");
+                      $("#message").html(res.message);
+                      $(`#${buttonId}`).closest("tr").remove();
+                      $("#count").html(res.count);
+                      tmp_students();
+                    }
+                  },
+                });
+              });
+            },
+          });
+        }
+
+        function total_students() {
+          $.ajax({
+            type: "GET",
+            url: "models/get_students.php",
+            success: function (response) {
+              let res = jQuery.parseJSON(response);
+              let count = res.count;
+              $("#total_students").html(count);
+            },
+          });
+        }
+
+        function total_homework() {
+          $.ajax({
+            type: "GET",
+            url: "models/get_homeworks.php",
+            success: function (response) {
+              let res = jQuery.parseJSON(response);
+              let count = res.count;
+              $("#total_homeworks").html(count);
+            },
+          });
+        }
+
+        total_homework();
+        tmp_students();
+        total_students();
+      });
+    </script>
   </body>
 </html>
