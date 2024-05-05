@@ -14,7 +14,8 @@ function getStudentTmp()
     } else {
         $res = [
             'code' => 404,
-            'message' => 'get Student Tmp not successful!'
+            'message' => 'get Student Tmp not successful!',
+            'count' => $result->num_rows
         ];
     }
     echo json_encode($res);
