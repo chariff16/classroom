@@ -73,7 +73,7 @@
               New Students Requests
             </h2>
             <h2 class="text-lg text-gray-700 font-normal">
-              Total Requests : <span id="count">2</span>
+              Total Requests : <span id="count"></span>
             </h2>
           </div>
 
@@ -93,45 +93,19 @@
                   <th class="text-start pl-2">Action</th>
                 </tr>
               </thead>
-              <tbody id="tbody">
-                <tr class="border-b border-gray-400">
-                  <td class="text-start pl-2 border-r border-gray-400">1</td>
-                  <td class="text-start pl-2 border-r border-gray-400">
-                    Mohammed Charif
-                  </td>
-                  <td class="text-start pl-2 border-r border-gray-400">
-                    Charif@email.com
-                  </td>
-                  <td class="text-start pl-2">
-                    <button
-                      class="bg-blue-700 text-white mr-1 py-1 px-2 rounded-lg"
-                    >
-                      Accept
-                    </button>
-                    <button
-                      class="bg-red-600 text-white mr-1 py-1 px-2 rounded-lg"
-                    >
-                      Cancel
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="4" class="text-center text-gray-400">
-                    No New Students Requests
-                  </td>
-                </tr>
-              </tbody>
+              <tbody id="tbody"></tbody>
             </table>
           </div>
           <div>
+            <p id="message" class="w-full text-center text-white py-2"></p>
             <h2 class="text-lg text-gray-700 font-normal">
-              Total Students : <span>2</span>
+              Total Students : <span id="total_students">0</span>
             </h2>
             <h2 class="text-lg text-gray-700 font-normal">
-              Total Home Work : <span>2</span>
+              Total Home Work : <span id="total_homeworks">0</span>
             </h2>
             <h2 class="text-lg text-gray-700 font-normal">
-              Submited Home Work Percentage: <span>2</span>
+              Submited Home Work Percentage: <span>0%</span>
             </h2>
           </div>
         </div>
@@ -139,7 +113,7 @@
     </div>
     <script>
       $(document).ready(function () {
-        function fetchStudentData() {
+        function tmp_students() {
           $.ajax({
             type: "GET",
             url: "models/get_students_tmp.php",
@@ -147,47 +121,110 @@
               let res = jQuery.parseJSON(response);
               let count = res.count;
               $("#count").html(count);
-              let output = "";
-              for (let i = 0; i < count; i++) {
-                console.log(res.data[i][1]);
-                $("#tbody").html(
-                  `<tr class="border-b border-gray-400">
-                  <td class="text-start pl-2 border-r border-gray-400">` +
-                    res.data[i][0] +
-                    `</td>
-                  <td class="text-start pl-2 border-r border-gray-400">
-                    ` +
-                    res.data[i][1] +
-                    `
-                  </td>
-                  <td class="text-start pl-2 border-r border-gray-400">
-                    ` +
-                    res.data[i][3] +
-                    `
-                  </td>
-                  <td class="text-start pl-2">
-                    <a
-                      value="` +
-                    res.data[i][0] +
-                    `"
-                      class="bg-blue-700 text-white mr-1 py-1 px-2 rounded-lg"
-                    >
-                      Accept
-                    </a>
-                    <button
-                      class="bg-red-600 text-white mr-1 py-1 px-2 rounded-lg"
-                    >
-                      Cancel
-                    </button>
-                  </td>
-                </tr>`
-                );
+              if (res.code == 200) {
+                let output = "";
+                for (let i = 0; i < count; i++) {
+                  output += `<tr class="border-b border-gray-400">
+                        <td class="text-start pl-2 border-r border-gray-400">${res.data[i][0]}</td>
+                        <td class="text-start pl-2 border-r border-gray-400">${res.data[i][1]}</td>
+                        <td class="text-start pl-2 border-r border-gray-400">${res.data[i][3]}</td>
+                        <td class="text-start pl-2">
+                            <button
+                                id="${res.data[i][0]}"
+                                class="accBtn bg-blue-700 text-white mr-1 py-1 px-2 rounded-lg"
+                            >
+                                Accept
+                            </button>
+                            <button
+                                id="${res.data[i][0]}"
+                                class="cancBtn bg-red-600 text-white mr-1 py-1 px-2 rounded-lg"
+                            >
+                                Cancel
+                            </button>
+                        </td>
+                    </tr>`;
+                }
+                $("#tbody").html(output);
               }
-              //console.log(res.count);
+              if (res.code == 404) {
+                let output = `
+                <tr>
+                  <td colspan="4" class="text-center text-gray-400">
+                    No New Students Requests
+                  </td>
+                </tr>
+                `;
+                $("#tbody").html(output);
+              }
+
+              // Bind click event handlers after updating the table
+              $(".accBtn").click(function () {
+                var buttonId = $(this).attr("id");
+                $.ajax({
+                  type: "POST",
+                  url: "models/accept_student.php",
+                  data: { id_user: buttonId },
+                  success: function (response) {
+                    let res = jQuery.parseJSON(response);
+                    if (res.code == 200) {
+                      $("#message").addClass("bg-green-700");
+                      $("#message").html(res.message);
+                      $(`#${buttonId}`).closest("tr").remove();
+                      $("#count").html(res.count);
+                      tmp_students();
+                    }
+                  },
+                });
+              });
+              $(".cancBtn").click(function () {
+                var buttonId = $(this).attr("id");
+                $.ajax({
+                  type: "POST",
+                  url: "models/refuse_student.php", // Replace with your POST URL
+                  data: { id_user: buttonId }, // Data to be sent
+                  success: function (response) {
+                    let res = jQuery.parseJSON(response);
+                    if (res.code == 200) {
+                      $("#message").addClass("bg-red-700");
+                      $("#message").html(res.message);
+                      $(`#${buttonId}`).closest("tr").remove();
+                      $("#count").html(res.count);
+                      tmp_students();
+                    }
+                  },
+                });
+              });
             },
           });
         }
-        fetchStudentData();
+
+        function total_students() {
+          $.ajax({
+            type: "GET",
+            url: "models/get_students.php",
+            success: function (response) {
+              let res = jQuery.parseJSON(response);
+              let count = res.count;
+              $("#total_students").html(count);
+            },
+          });
+        }
+
+        function total_homework() {
+          $.ajax({
+            type: "GET",
+            url: "models/get_homeworks.php",
+            success: function (response) {
+              let res = jQuery.parseJSON(response);
+              let count = res.count;
+              $("#total_homeworks").html(count);
+            },
+          });
+        }
+
+        total_homework();
+        tmp_students();
+        total_students();
       });
     </script>
   </body>
