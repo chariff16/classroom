@@ -243,7 +243,7 @@
               success: function (response) {
                 let res = jQuery.parseJSON(response);
                 if (res.code == "200") {
-                  window.location.replace("admin/index.html");
+                  window.location.replace("login.html");
                 } else if (res.code == "404") {
                   $("#message").removeClass("hidden");
                   $("#message").html(res.message);

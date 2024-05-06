@@ -196,8 +196,19 @@
               data: formData,
               success: function (response) {
                 let res = jQuery.parseJSON(response);
+                $("#message").addClass("hidden").html("");
                 if (res.code == "200") {
-                  window.location.replace("admin/index.html");
+                  if (res.data[0][5] == "admin") {
+                    window.location.replace("admin/index.html");
+                  } else if (res.data[0][5] == "student") {
+                    window.location.replace("student/index.html");
+                  } else if (res.data[0][5] == "student_refused") {
+                    $("#message").removeClass("hidden");
+                    $("#message").html("Your Accout Has been Refused");
+                  } else if (res.data[0][5] == "student_tmp") {
+                    $("#message").removeClass("hidden");
+                    $("#message").html("Your Accout Has Not Been Accepted Yet");
+                  }
                 } else if (res.code == "404") {
                   $("#message").removeClass("hidden");
                   $("#message").html(res.message);

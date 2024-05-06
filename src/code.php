@@ -12,14 +12,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($action == 'login') {
         global $username, $password, $conn;
+        $hashed_password = md5($password);
         // Query to check if username and password match
-        $sql = "SELECT * FROM user WHERE username='$username' AND password='$password'";
+        $sql = "SELECT * FROM user WHERE username='$username' AND password='$hashed_password'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             $res = [
                 'code' => 200,
-                'message' => 'Login successful!'
+                'message' => 'Login successful!',
+                'data' => $result->fetch_all()
             ];
             echo json_encode($res);
             return;
